@@ -14,7 +14,7 @@ def start_dialog(message : telebot.types.Message) -> None:
     markup.add(types.InlineKeyboardButton('English', callback_data = 'English'), 
                types.InlineKeyboardButton('Русский', callback_data = 'Русский'), 
                types.InlineKeyboardButton('Беларуская', callback_data = 'Беларуская'))
-    bot.send_message(user_id, "Please choose your language:", reply_markup=markup)
+    bot.send_message(user_id, "Please choose your language:", reply_markup = markup)
 
     create_user(user_id)
     update_user_name(user_id, message.from_user.first_name)
@@ -22,42 +22,98 @@ def start_dialog(message : telebot.types.Message) -> None:
 
 
 def choose_gender(user_id : int) -> None:
+    match get_language(user_id):
+        case 0:
+            male_text = "Male"
+            female_text = 'Female'
+        case 1: 
+            male_text = "Мужчина"
+            female_text = 'Женщина'
+        case 2:
+            male_text = "Мыжчына"
+            female_text = 'Жанчына'
+
+    match get_language(user_id):
+        case 0:
+            response = "Please choose your gender:"
+        case 1: 
+            response = "Укажите Ваш пол:"
+        case 2:
+            response = "Калі ласка, пазнацче Ваш пол:"
     markup = types.InlineKeyboardMarkup()
-    markup.add(types.InlineKeyboardButton('Male', callback_data='Male'), 
-               types.InlineKeyboardButton('Female', callback_data='Female'))
-    bot.send_message(user_id, "Please choose your gender:", reply_markup=markup)
+    markup.add(types.InlineKeyboardButton(male_text, callback_data='Male'), 
+               types.InlineKeyboardButton(female_text, callback_data='Female'))
+    bot.send_message(user_id, response, reply_markup=markup)
     states[user_id] = "choose_gender"
 
 
 def ask_height(user_id : int) -> None:
-    bot.send_message(user_id, "Please enter your height (in centimeters):")
+    match get_language(user_id):
+        case 0:
+            response = "Please specify Your height (in centimetre) . This is required for more accurate nutritionist recommendations."
+        case 1: 
+            response = "Укажите Ваш рост (в сантиметрах). Это необходимо для более точных рекомендаций нутрициолога."
+        case 2:
+            response = "Калі ласка, пазнацче Ваш рост (у сантыметрах). Гэта неабходна для больш дакладных рэкамендацый нутрыцыялога."
+    bot.send_message(user_id, response)
     states[user_id] = "ask_height"
 
 
 def ask_weight(user_id : int) -> None:
-    bot.send_message(user_id, "Please enter your weight (in kilograms):")
+    match get_language(user_id):
+        case 0:
+            response = "Please specify Your weight (in kilograms) . This is required for more accurate nutritionist recommendations."
+        case 1: 
+            response = "Укажите Ваш вес (в киллограмах). Это необходимо для более точных рекомендаций нутрициолога."
+        case 2:
+            response = "Калі ласка, пазнацче Ваш вес (у кілаграмах). Гэта неабходна для больш дакладных рэкамендацый нутрыцыялога."
+    bot.send_message(user_id, response)
     states[user_id] = "ask_weight"
 
 
 def ask_purpose(user_id : int) -> None:
-    bot.send_message(user_id, "Please enter your purpose of using this bot:")
+    match get_language(user_id):
+        case 0:
+            response = "Please specify Your purpose of using the bot. This is required for more accurate nutritionist recommendations."
+        case 1: 
+            response = "Укажите цель использования бота. Это необходимо для более точных рекомендаций нутрициолога."
+        case 2:
+            response = "Калі ласка, пазначце цэль выкарыстання даннаго бота. Гэта неабходна для больш дакладных рэкамендацый нутрыцыялога."
+    bot.send_message(user_id, response)
     states[user_id] = "ask_purpose"
 
 
 def ask_age(user_id : int) -> None:
-    bot.send_message(user_id, "Please enter your age (in years):")
+    match get_language(user_id):
+        case 0:
+            response = "Please specify Your age. This is required for more accurate nutritionist recommendations."
+        case 1: 
+            response = "Укажите Ваш возраст. Это необходимо для более точных рекомендаций нутрициолога."
+        case 2:
+            response = "Калі ласка, пазначце Ваш узрост. Гэта неабходна для больш дакладных рэкамендацый нутрыцыялога."
+    bot.send_message(user_id, response)
     states[user_id] = "ask_age"
 
+def ask_diet(user_id : int) -> None:
+    match get_language(user_id):
+        case 0:
+            response = "Please specify Your diet, if You have one. This is required for more accurate nutritionist recommendations."
+        case 1: 
+            response = "Укажите, Вашу диету, если она у Вас есть. Это необходимо для более точных рекомендаций нутрициолога."
+        case 2:
+            response = "Калі ласка, пазначце Вашую дыету, калі ў Вас яна ёсць. Гэта неабходна для больш дакладных рэкамендацый нутрыцыялога."
+    bot.send_message(user_id, response)
+    states[user_id] = "ask_diet"
 
 def show_users_data(user_id : int) -> None:
     user_data = get_users_data(user_id)
     match get_language(user_id):
         case 0:
-            pass
+            response = f"{user_data[5]}, here is the information you provided: \n\tGender: {user_data[2]};\n\tHeight: {user_data[3]};\n\tWeight: {user_data[4]};\n\tPurpose of using the bot: \"{user_data[6]}\";\n\tDiet: \"{user_data[9]}\"."
         case 1: 
             response = f"{user_data[5]}, вот информация, которую вы предоставили: \n\tПол: {user_data[2]};\n\tРост: {user_data[3]};\n\tВес:{user_data[4]};\n\tЦель использования бота: \"{user_data[6]}\";\n\tДиета: \"{user_data[9]}\"."
         case 2:
-            pass
+            response = f"{user_data[5]}, вось інфармацыя, якую вы пазначылі: \n\tПол: {user_data[2]};\n\tРост: {user_data[3]};\n\tВас: {user_data[4]};\n\tМэта выкарыстанне бота: \"{user_data[6]}\";\n\tДыета: \"{user_data[9]}\"."
     
     bot.send_message(user_id, response)
 
@@ -69,12 +125,10 @@ def handle_callback_query(call : telebot.types.Message) -> None:
     elif states[user_id] == "start_dialog":
         chosen_language = call.data
         update_user_language(user_id, chosen_language)
-        bot.send_message(user_id, f"You have chosen {chosen_language} language.")
         choose_gender(user_id)
     elif states[user_id] == "choose_gender":
         chosen_gender = call.data
         update_user_gender(user_id, chosen_gender)
-        bot.send_message(user_id, f"You have chosen {chosen_gender} gender.")
         ask_age(user_id)
 
 
@@ -91,38 +145,55 @@ def handle_text(message : telebot.types.Message) -> None:
         age = message.text.strip()
         if age.isdigit():
             update_user_age(user_id, float(age))
-            bot.send_message(user_id, f"Your age {age} years has been saved.")
             ask_height(user_id)
         else:
-            bot.send_message(user_id, "Please enter a valid age.")
+            match get_language(user_id):
+                case 0:
+                    response = "Please enter a valid age!"
+                case 1: 
+                    response = "Пожалуйста, введите Ваш возраст!"
+                case 2:
+                    response = "Калі ласка, пазначце Ваш узрост!"
+            bot.send_message(user_id, response)
             ask_age(user_id)
     elif states[user_id] == "ask_height":
         height = message.text.strip()
         if height.isdigit():
             update_user_height(user_id, float(height))
-            bot.send_message(user_id, f"Your height {height} cm has been saved.")
             ask_weight(user_id)
         else:
-            bot.send_message(user_id, "Please enter a valid height.")
+            match get_language(user_id):
+                case 0:
+                    response = "Please enter a valid height!"
+                case 1: 
+                    response = "Пожалуйста, введите Ваш рост!"
+                case 2:
+                    response = "Калі ласка, пазначце Ваш рост!"
+            bot.send_message(user_id, response)
             ask_height(user_id)
     elif states[user_id] == "ask_weight":
         weight = message.text.strip()
         if weight.isdigit():
             update_user_weight(user_id, float(weight))
-            bot.send_message(user_id, f"Your weight {weight} kg has been saved.")
             ask_purpose(user_id)
         else:
-            bot.send_message(user_id, "Please enter a valid weight.")
+            match get_language(user_id):
+                case 0:
+                    response = "Please enter a valid weight!"
+                case 1: 
+                    response = "Пожалуйста, введите Ваш вес!"
+                case 2:
+                    response = "Калі ласка, пазначце Ваш вес!"
+            bot.send_message(user_id, response)
             ask_weight(user_id)
     elif states[user_id] == "ask_purpose":
         purpose = message.text
         update_user_purpose(user_id, purpose)
-        bot.send_message(user_id, f"Your are goin to use this bot for \"{purpose}\" purpose.")
         states[user_id] = "ask_diet"
+        ask_diet(user_id)
     elif states[user_id] == "ask_diet":
         diet = message.text
         update_user_diet(user_id, diet)
-        bot.send_message(user_id, f"You're diet: \"{diet}\".")
         show_users_data(user_id)
         states[user_id] = 0
     else:
