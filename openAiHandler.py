@@ -1,5 +1,5 @@
 from openai import OpenAI
-from DataBase.DataBaseHandler import *
+from DataBaseHandler import *
 import base64
 from pathlib import Path
 
@@ -9,7 +9,7 @@ def generate_response(token : str, message : str, user_id : int, doSave = True) 
     user_data = get_users_data(user_id)
 
     history = []
-    history.append({'role' : "system", "content" : "You are nutritionist specialist."})
+    history.append({'role' : "system", "content" : "You are nutritionist specialist. Aswer only questions from you're scope of knowledge."})
     history.append({'role' : "user", "content" : f"I am {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, i am {user_data[3]}, i am {user_data[4]}, i am goint to use this you for \"{user_data[6]}\"."})    
     for mesg, role in getMessageHistory(user_id):
         history.append({'role': role, 'content': mesg})
@@ -39,7 +39,7 @@ def generate_photo_response(token : str, photo : str, user_id : int, caption : s
     user_data = get_users_data(user_id)
 
     history = []
-    history.append({'role' : "system", "content" : "You are nutritionist specialist."})
+    history.append({'role' : "system", "content" : "You are nutritionist specialist. Aswer only questions from you're scope of knowledge."})
     history.append({'role' : "user", "content" : f"I am {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, i am {user_data[3]}, i am {user_data[4]}, i am goint to use this you for \"{user_data[6]}\"."})    
     for mesg, role in getMessageHistory(user_id):
         history.append({'role': role, 'content': mesg})
@@ -79,7 +79,7 @@ def generate_voise_response(token : str, voice : str, user_id : int) -> str:
     user_data = get_users_data(user_id)
 
     history = []
-    history.append({'role' : "system", "content" : "You are nutritionist specialist."})
+    history.append({'role' : "system", "content" : "You are nutritionist specialist. Aswer only questions from you're scope of knowledge."})
     history.append({'role' : "user", "content" : f"I am {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, i am {user_data[3]}, i am {user_data[4]}, i am goint to use this you for \"{user_data[6]}\"."})    
     for mesg, role in getMessageHistory(user_id):
         history.append({'role': role, 'content': mesg})

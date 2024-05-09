@@ -1,7 +1,7 @@
 import telebot
 from telebot import types
 import argparse
-from DataBase.DataBaseHandler import *
+from DataBaseHandler import *
 from openAiHandler import *
 import os
 import pydub
@@ -11,9 +11,9 @@ states = {}
 def start_dialog(message : telebot.types.Message) -> None:
     user_id = message.from_user.id
     markup = types.InlineKeyboardMarkup()
-    markup.add(types.InlineKeyboardButton('English', callback_data='English'), 
-               types.InlineKeyboardButton('Русский', callback_data='Русский'), 
-               types.InlineKeyboardButton('Беларуская', callback_data='Беларуская'))
+    markup.add(types.InlineKeyboardButton('English', callback_data = 'English'), 
+               types.InlineKeyboardButton('Русский', callback_data = 'Русский'), 
+               types.InlineKeyboardButton('Беларуская', callback_data = 'Беларуская'))
     bot.send_message(user_id, "Please choose your language:", reply_markup=markup)
 
     create_user(user_id)
@@ -117,6 +117,12 @@ def handle_text(message : telebot.types.Message) -> None:
 
 def photo_response(message : telebot.types.Message) -> None:
     user_id = message.from_user.id
+    if check_chat_existance(user_id):
+        if user_id not in states:
+            states[user_id] = 0
+    else:
+        start_dialog(message)
+        return
     file_id = message.photo[-1].file_id
     file_info = bot.get_file(file_id)
     caption = message.caption if message.caption else ""
@@ -132,6 +138,12 @@ def photo_response(message : telebot.types.Message) -> None:
 
 def voice_response(message : telebot.types.Message) -> None:
     user_id = message.from_user.id
+    if check_chat_existance(user_id):
+        if user_id not in states:
+            states[user_id] = 0
+    else:
+        start_dialog(message)
+        return
     file_id = message.voice.file_id
     file_info = bot.get_file(file_id)
     file_extension = ".ogg"
