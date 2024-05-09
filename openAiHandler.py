@@ -26,7 +26,7 @@ def generate_response(token : str, message : str, user_id : int, doSave = True) 
             messages = history
         )
 
-        answer = response.choices[0].message.content.replace("*", "")
+        answer = response.choices[0].message.content.replace("*", "").replace("#", "")
 
         if doSave:
             insertMessage(user_id, message, "user")
@@ -66,7 +66,7 @@ def generate_photo_response(token : str, photo : str, user_id : int, caption : s
             ]
         )
 
-        answer = response.choices[0].message.content.replace("*", "")
+        answer = response.choices[0].message.content.replace("*", "").replace("#", "")
 
         insertMessage(user_id, "Image", "user")
         insertMessage(user_id, answer, "system")

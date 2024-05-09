@@ -218,7 +218,7 @@ def handle_text(message : telebot.types.Message) -> None:
                 case 1: 
                     response = "Извините, возникла ошибка, возможно Ваше сообщение слишком длинное."
                 case 2:
-                    response = "Выбачайце, узнікла памылка, магчыма ваша паведамленне занадта доўгае."
+                    response = "Выбачайце, узнікла памылка, магчыма Ваша паведамленне занадта доўгае."
             bot.send_message(user_id, response)
             return
         bot.send_message(user_id, response)
@@ -250,7 +250,7 @@ def photo_response(message : telebot.types.Message) -> None:
             case 1: 
                 response = "Извините, возникла ошибка, возможно Ваше сообщение слишком длинное."
             case 2:
-                response = "Выбачайце, узнікла памылка, магчыма ваша паведамленне занадта доўгае."
+                response = "Выбачайце, узнікла памылка, магчыма Ваша паведамленне занадта доўгае."
         bot.send_message(user_id, response)
         return
     bot.send_message(user_id, response)
@@ -285,7 +285,7 @@ def voice_response(message : telebot.types.Message) -> None:
             case 1: 
                 response = "Извините, возникла ошибка, возможно Ваше сообщение слишком длинное."
             case 2:
-                response = "Выбачайце, узнікла памылка, магчыма ваша паведамленне занадта доўгае."
+                response = "Выбачайце, узнікла памылка, магчыма Ваша паведамленне занадта доўгае."
         bot.send_message(user_id, response)
         return
 
