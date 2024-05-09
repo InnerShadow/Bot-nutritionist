@@ -48,8 +48,8 @@ def ask_age(user_id):
 
 
 def show_users_data(user_id):
-    response = get_users_data(user_id)
-    bot.send_message(user_id, response)
+    user_data = get_users_data(user_id)
+    bot.send_message(user_id, f"You are {user_data[5]}, and you are {user_data[2]}, you are {user_data[8]} years old, you're height {user_data[3]}, you're weight {user_data[4]}, you are goint to use this bot for \"{user_data[6]}\".")
 
 
 def handle_callback_query(call):

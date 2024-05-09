@@ -22,12 +22,13 @@ def initDataBase():
                         message_id INTEGER PRIMARY KEY AUTOINCREMENT,
                         user_id INTEGER,
                         message TEXT,
+                        role TEXT,
                         sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                         FOREIGN KEY (user_id) REFERENCES users(user_id)
                         )""")
 
             
-def insertMessage(chat_id, message):
+def insertMessage(chat_id : int, message : str, role : str) -> None:
     with sq.connect("Data/database.db") as con:
         cur = con.cursor()
         cur.execute("SELECT user_id FROM users WHERE chat_id = ?", (chat_id,))
@@ -40,9 +41,21 @@ def insertMessage(chat_id, message):
         if message_count >= 10:
             cur.execute("DELETE FROM MessageHistory WHERE user_id = ? ORDER BY sent_at ASC LIMIT 1", (user_id,))
         
-        cur.execute("INSERT INTO MessageHistory (user_id, message) VALUES (?, ?)", (user_id, message))
+        cur.execute("INSERT INTO MessageHistory (user_id, message, role) VALUES (?, ?, ?)", (user_id, message, role))
         con.commit()
 
+def getMessageHistory(chat_id : int) -> list:
+    with sq.connect("Data/database.db") as con:
+        cur = con.cursor()
+        cur.execute("SELECT user_id FROM users WHERE chat_id = ?", (chat_id,))
+        user_id = cur.fetchone()
+        if user_id:
+            user_id = user_id[0]
+            cur.execute("SELECT message, role FROM MessageHistory WHERE user_id = ? ORDER BY sent_at DESC", (user_id, ))
+            message_history = cur.fetchall()
+            return message_history
+        else:
+            return []
 
 def create_user(chat_id) -> None:
     with sq.connect("Data/database.db") as con:
@@ -108,7 +121,7 @@ def get_users_data(chat_id : int) -> str:
         cur.execute("SELECT * FROM users WHERE chat_id=?", (chat_id,))
         user_data = cur.fetchone()
         
-        return f"You are {user_data[5]}, and you are {user_data[2]}, you are {user_data[8]} years old, you're height {user_data[3]}, you're weight {user_data[4]}, you are goint to use this bot for \"{user_data[6]}\"."
+        return user_data
 
 def check_chat_existance(chat_id : int) -> bool:
     with sq.connect("Data/database.db") as con:
