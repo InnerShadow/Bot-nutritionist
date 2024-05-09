@@ -1,10 +1,12 @@
-import telebot
-from telebot import types
-import argparse
-from DataBaseHandler import *
-from openAiHandler import *
 import os
 import pydub
+import argparse
+
+import telebot
+from telebot import types
+
+from DataBaseHandler import *
+from openAiHandler import *
 
 states = {}
 
