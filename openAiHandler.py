@@ -3,6 +3,11 @@ from DataBaseHandler import *
 import base64
 from pathlib import Path
 
+def encode_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode('utf-8')
+    
+
 def generate_response(token : str, message : str, user_id : int, doSave = True) -> str:
     client = OpenAI(api_key = token)
     try:
@@ -31,9 +36,6 @@ def generate_response(token : str, message : str, user_id : int, doSave = True) 
     except Exception:
         return "Error!"
 
-def encode_image(image_path):
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
 
 def generate_photo_response(token : str, photo : str, user_id : int, caption : str) -> str:
     client = OpenAI(api_key = token)
@@ -72,6 +74,7 @@ def generate_photo_response(token : str, photo : str, user_id : int, caption : s
         return answer
     except Exception:
         return "Error!"
+
 
 def generate_voise_response(token : str, voice : str, user_id : int) -> str:
     client = OpenAI(api_key = token)
