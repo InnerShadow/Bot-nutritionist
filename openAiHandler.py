@@ -11,7 +11,7 @@ def generate_response(token : str, message : str, user_id : int, doSave = True) 
         history = []
         history.append({'role' : "system", "content" : "You are nutritionist specialist. Aswer only questions from you're scope of knowledge."})
         history.append({'role' : "user", "content" : f"My name is {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, my hight is {user_data[3]} cm, my weight is {user_data[4]} kg, i ask question for \"{user_data[6]}\", my diet is : \"{user_data[9]}\". Call me by my first name and use this information in the response."})    
-        for mesg, role in getMessageHistory(user_id):
+        for mesg, role in reversed(getMessageHistory(user_id)):
             history.append({'role': role, 'content': mesg})
 
         history.append({'role' : "user", "content" : f"Answer next question: {message}"})
@@ -43,7 +43,7 @@ def generate_photo_response(token : str, photo : str, user_id : int, caption : s
         history = []
         history.append({'role' : "system", "content" : "You are nutritionist specialist. Aswer only questions from you're scope of knowledge."})
         history.append({'role' : "user", "content" : f"My name is {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, my hight is {user_data[3]} cm, my weight is {user_data[4]} kg, i ask question for \"{user_data[6]}\", my diet is : \"{user_data[9]}\". Call me by my first name and use this information in the response."})    
-        for mesg, role in getMessageHistory(user_id):
+        for mesg, role in reversed(getMessageHistory(user_id)):
             history.append({'role': role, 'content': mesg})
 
         base64_image = encode_image(photo)
@@ -82,7 +82,7 @@ def generate_voise_response(token : str, voice : str, user_id : int) -> str:
         history = []
         history.append({'role' : "system", "content" : "You are nutritionist specialist. Aswer only questions from you're scope of knowledge."})
         history.append({'role' : "user", "content" : f"My name is {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, my hight is {user_data[3]} cm, my weight is {user_data[4]} kg, i ask question for \"{user_data[6]}\", my diet is : \"{user_data[9]}\". Call me by my first name and use this information in the response."})    
-        for mesg, role in getMessageHistory(user_id):
+        for mesg, role in reversed(getMessageHistory(user_id)):
             history.append({'role': role, 'content': mesg})
 
         audio_file = open(voice, "rb")
@@ -107,3 +107,4 @@ def generate_voise_response(token : str, voice : str, user_id : int) -> str:
         return answer
     except Exception:
         return "Error!"
+
