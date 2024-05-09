@@ -3,6 +3,7 @@ from telebot import types
 import argparse
 from DataBase.DataBaseHandler import *
 from openAiHandler import *
+import os
 
 states = {}
 
@@ -113,6 +114,19 @@ def handle_text(message):
     else:
         bot.send_message(user_id, generate_response(openAiToken, message.text, user_id))
 
+def photo_response(message):
+    user_id = message.from_user.id
+    file_id = message.photo[-1].file_id
+    file_info = bot.get_file(file_id)
+    caption = message.caption if message.caption else ""
+
+    file_extension = os.path.splitext(file_info.file_path)[-1]
+    downloaded_file = bot.download_file(file_info.file_path)
+    save_path = f"Data/{user_id}_{file_extension}"
+    with open(save_path, 'wb') as new_file:
+        new_file.write(downloaded_file)
+    bot.send_message(user_id, generate_photo_response(openAiToken, save_path, user_id, caption))
+
 
 def main(bot_token: str) -> None:
     global bot
@@ -129,6 +143,10 @@ def main(bot_token: str) -> None:
     @bot.message_handler(func = lambda message: True)
     def text_message(message):
         handle_text(message)
+
+    @bot.message_handler(content_types=['photo'])
+    def photo_message(message):
+        photo_response(message)
 
     bot.polling(non_stop=True)
 
