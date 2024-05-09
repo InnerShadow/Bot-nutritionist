@@ -8,7 +8,7 @@ import pydub
 
 states = {}
 
-def start_dialog(message):
+def start_dialog(message : telebot.types.Message) -> None:
     user_id = message.from_user.id
     markup = types.InlineKeyboardMarkup()
     markup.add(types.InlineKeyboardButton('English', callback_data='English'), 
@@ -21,7 +21,7 @@ def start_dialog(message):
     states[user_id] = "start_dialog"
 
 
-def choose_gender(user_id):
+def choose_gender(user_id : int) -> None:
     markup = types.InlineKeyboardMarkup()
     markup.add(types.InlineKeyboardButton('Male', callback_data='Male'), 
                types.InlineKeyboardButton('Female', callback_data='Female'))
@@ -29,32 +29,32 @@ def choose_gender(user_id):
     states[user_id] = "choose_gender"
 
 
-def ask_height(user_id):
+def ask_height(user_id : int) -> None:
     bot.send_message(user_id, "Please enter your height (in centimeters):")
     states[user_id] = "ask_height"
 
 
-def ask_weight(user_id):
+def ask_weight(user_id : int) -> None:
     bot.send_message(user_id, "Please enter your weight (in kilograms):")
     states[user_id] = "ask_weight"
 
 
-def ask_purpose(user_id):
+def ask_purpose(user_id : int) -> None:
     bot.send_message(user_id, "Please enter your purpose of using this bot:")
     states[user_id] = "ask_purpose"
 
 
-def ask_age(user_id):
+def ask_age(user_id : int) -> None:
     bot.send_message(user_id, "Please enter your age (in years):")
     states[user_id] = "ask_age"
 
 
-def show_users_data(user_id):
+def show_users_data(user_id : int) -> None:
     user_data = get_users_data(user_id)
     bot.send_message(user_id, f"You are {user_data[5]}, and you are {user_data[2]}, you are {user_data[8]} years old, you're height {user_data[3]}, you're weight {user_data[4]}, you are goint to use this bot for \"{user_data[6]}\".")
 
 
-def handle_callback_query(call):
+def handle_callback_query(call : telebot.types.Message) -> None:
     user_id = call.from_user.id
     if user_id not in states:
         start_dialog(call.message)
@@ -70,7 +70,7 @@ def handle_callback_query(call):
         ask_age(user_id)
 
 
-def handle_text(message):
+def handle_text(message : telebot.types.Message) -> None:
     user_id = message.from_user.id
     if check_chat_existance(user_id):
         if user_id not in states:
@@ -115,7 +115,7 @@ def handle_text(message):
     else:
         bot.send_message(user_id, generate_response(openAiToken, message.text, user_id))
 
-def photo_response(message):
+def photo_response(message : telebot.types.Message) -> None:
     user_id = message.from_user.id
     file_id = message.photo[-1].file_id
     file_info = bot.get_file(file_id)
@@ -130,7 +130,7 @@ def photo_response(message):
 
     os.remove(save_path)
 
-def voice_response(message):
+def voice_response(message : telebot.types.Message) -> None:
     user_id = message.from_user.id
     file_id = message.voice.file_id
     file_info = bot.get_file(file_id)
@@ -157,7 +157,7 @@ def main(bot_token: str) -> None:
     global bot
     bot = telebot.TeleBot(bot_token)
 
-    @bot.message_handler(commands=['start'])
+    @bot.message_handler(commands = ['start'])
     def start(message):
         start_dialog(message)
 
