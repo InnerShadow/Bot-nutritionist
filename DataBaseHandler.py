@@ -13,6 +13,7 @@ def initDataBase():
                         purpose TEXT,
                         language TEXT,
                         age FLOAT,
+                        diet TEXT, 
                         UNIQUE(chat_id)
                         )""")
         
@@ -108,6 +109,11 @@ def update_user_purpose(chat_id: int, purpose: str) -> None:
         cur.execute("UPDATE users SET purpose=? WHERE chat_id=?", (purpose, chat_id))
         con.commit()
 
+def update_user_diet(chat_id: int, diet: str) -> None:
+    with sq.connect("Data/database.db") as con:
+        cur = con.cursor()
+        cur.execute("UPDATE users SET diet=? WHERE chat_id=?", (diet, chat_id))
+        con.commit()
 
 def update_user_name(chat_id: int, name: str) -> None:
     with sq.connect("Data/database.db") as con:
@@ -130,3 +136,14 @@ def check_chat_existance(chat_id : int) -> bool:
         count = cur.fetchone()
         return True if count is not None else False
 
+def get_language(chat_id : int) -> int:
+    with sq.connect("Data/database.db") as con:
+        cur = con.cursor()
+        cur.execute("SELECT language FROM users WHERE chat_id=?", (chat_id,))
+        language = cur.fetchone()[0]
+        if language == "English":
+            return 0
+        elif language == "Русский":
+            return 1
+        else:
+            return 2

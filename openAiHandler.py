@@ -10,7 +10,7 @@ def generate_response(token : str, message : str, user_id : int, doSave = True) 
 
     history = []
     history.append({'role' : "system", "content" : "You are nutritionist specialist. Aswer only questions from you're scope of knowledge."})
-    history.append({'role' : "user", "content" : f"I am {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, i am {user_data[3]}, i am {user_data[4]}, i i ask question for \"{user_data[6]}\"."})    
+    history.append({'role' : "user", "content" : f"My name is {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, my hight is {user_data[3]} cm, my weight is {user_data[4]} kg, i ask question for \"{user_data[6]}\", my diet is : \"{user_data[9]}\". Call me by my first name and use this information in the response."})    
     for mesg, role in getMessageHistory(user_id):
         history.append({'role': role, 'content': mesg})
 
@@ -40,7 +40,7 @@ def generate_photo_response(token : str, photo : str, user_id : int, caption : s
 
     history = []
     history.append({'role' : "system", "content" : "You are nutritionist specialist. Aswer only questions from you're scope of knowledge."})
-    history.append({'role' : "user", "content" : f"I am {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, i am {user_data[3]}, i am {user_data[4]}, i i ask question for \"{user_data[6]}\"."})    
+    history.append({'role' : "user", "content" : f"My name is {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, my hight is {user_data[3]} cm, my weight is {user_data[4]} kg, i ask question for \"{user_data[6]}\", my diet is : \"{user_data[9]}\". Call me by my first name and use this information in the response."})    
     for mesg, role in getMessageHistory(user_id):
         history.append({'role': role, 'content': mesg})
 
@@ -52,7 +52,7 @@ def generate_photo_response(token : str, photo : str, user_id : int, caption : s
             {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": "Predict number of the proteins\\fats\\carbohydrates and calorie content on image. " + caption + ". In your reply, use the language from the previous correspondence."},
+                    {"type": "text", "text": "Predict number of the proteins\\fats\\carbohydrates and calorie content on image. " + caption + ". In your reply, use the language from the previous correspondence. Call me by my first name and use this information in the response."},
                     {
                         "type": "image_url",
                         "image_url": f"data:image/jpeg;base64,{base64_image}",
@@ -76,7 +76,7 @@ def generate_voise_response(token : str, voice : str, user_id : int) -> str:
 
     history = []
     history.append({'role' : "system", "content" : "You are nutritionist specialist. Aswer only questions from you're scope of knowledge."})
-    history.append({'role' : "user", "content" : f"I am {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, i am {user_data[3]}, i am {user_data[4]}, i ask question for \"{user_data[6]}\"."})    
+    history.append({'role' : "user", "content" : f"My name is {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, my hight is {user_data[3]} cm, my weight is {user_data[4]} kg, i ask question for \"{user_data[6]}\", my diet is : \"{user_data[9]}\". Call me by my first name and use this information in the response."})    
     for mesg, role in getMessageHistory(user_id):
         history.append({'role': role, 'content': mesg})
 

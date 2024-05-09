@@ -51,7 +51,15 @@ def ask_age(user_id : int) -> None:
 
 def show_users_data(user_id : int) -> None:
     user_data = get_users_data(user_id)
-    bot.send_message(user_id, f"You are {user_data[5]}, and you are {user_data[2]}, you are {user_data[8]} years old, you're height {user_data[3]}, you're weight {user_data[4]}, you are goint to use this bot for \"{user_data[6]}\".")
+    match get_language(user_id):
+        case 0:
+            pass
+        case 1: 
+            response = f"{user_data[5]}, вот информация, которую вы предоставили: \n\tПол: {user_data[2]};\n\tРост: {user_data[3]};\n\tВес:{user_data[4]};\n\tЦель использования бота: \"{user_data[6]}\";\n\tДиета: \"{user_data[9]}\"."
+        case 2:
+            pass
+    
+    bot.send_message(user_id, response)
 
 
 def handle_callback_query(call : telebot.types.Message) -> None:
@@ -110,6 +118,11 @@ def handle_text(message : telebot.types.Message) -> None:
         purpose = message.text
         update_user_purpose(user_id, purpose)
         bot.send_message(user_id, f"Your are goin to use this bot for \"{purpose}\" purpose.")
+        states[user_id] = "ask_diet"
+    elif states[user_id] == "ask_diet":
+        diet = message.text
+        update_user_diet(user_id, diet)
+        bot.send_message(user_id, f"You're diet: \"{diet}\".")
         show_users_data(user_id)
         states[user_id] = 0
     else:
