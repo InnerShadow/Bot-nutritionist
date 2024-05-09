@@ -139,13 +139,17 @@ def voice_response(message):
     save_path = f"Data/{user_id}_{file_extension}"
     with open(save_path, 'wb') as new_file:
         new_file.write(downloaded_file)
-    bot.send_message(user_id, "Звуковое сообщение успешно сохранено!")
 
     sound = pydub.AudioSegment.from_file(save_path, format = "ogg")
     sound.export(save_path[:len(save_path) - 3] + ".mp3", format = "mp3")
-    
+
+    generate_voise_response(openAiToken, save_path[:len(save_path) - 3] + ".mp3", user_id)
+
+    with open(f"Data/{user_id}.mp3", 'rb') as f:
+        bot.send_voice(user_id, f)
 
     os.remove(save_path)
+    os.remove(f"Data/{user_id}.mp3")
     os.remove(save_path[:len(save_path) - 3] + ".mp3")
 
 
