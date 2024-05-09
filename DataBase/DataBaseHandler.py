@@ -16,6 +16,33 @@ def initDataBase():
                         UNIQUE(chat_id)
                         )""")
         
+    with sq.connect("Data/database.db") as con:
+        cur = con.cursor()
+        cur.execute("""CREATE TABLE IF NOT EXISTS MessageHistory (
+                        message_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        user_id INTEGER,
+                        message TEXT,
+                        sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        FOREIGN KEY (user_id) REFERENCES users(user_id)
+                        )""")
+
+            
+def insertMessage(chat_id, message):
+    with sq.connect("Data/database.db") as con:
+        cur = con.cursor()
+        cur.execute("SELECT user_id FROM users WHERE chat_id = ?", (chat_id,))
+        user_id = cur.fetchone()
+        
+        user_id = user_id[0]
+        cur.execute("SELECT COUNT(*) FROM MessageHistory WHERE user_id = ?", (user_id,))
+        message_count = cur.fetchone()[0]
+        
+        if message_count >= 10:
+            cur.execute("DELETE FROM MessageHistory WHERE user_id = ? ORDER BY sent_at ASC LIMIT 1", (user_id,))
+        
+        cur.execute("INSERT INTO MessageHistory (user_id, message) VALUES (?, ?)", (user_id, message))
+        con.commit()
+
 
 def create_user(chat_id) -> None:
     with sq.connect("Data/database.db") as con:
