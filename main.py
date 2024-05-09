@@ -4,6 +4,7 @@ import argparse
 from DataBase.DataBaseHandler import *
 from openAiHandler import *
 import os
+import pydub
 
 states = {}
 
@@ -127,6 +128,26 @@ def photo_response(message):
         new_file.write(downloaded_file)
     bot.send_message(user_id, generate_photo_response(openAiToken, save_path, user_id, caption))
 
+    os.remove(save_path)
+
+def voice_response(message):
+    user_id = message.from_user.id
+    file_id = message.voice.file_id
+    file_info = bot.get_file(file_id)
+    file_extension = ".ogg"
+    downloaded_file = bot.download_file(file_info.file_path)
+    save_path = f"Data/{user_id}_{file_extension}"
+    with open(save_path, 'wb') as new_file:
+        new_file.write(downloaded_file)
+    bot.send_message(user_id, "Звуковое сообщение успешно сохранено!")
+
+    sound = pydub.AudioSegment.from_file(save_path, format = "ogg")
+    sound.export(save_path[:len(save_path) - 3] + ".mp3", format = "mp3")
+    
+
+    os.remove(save_path)
+    os.remove(save_path[:len(save_path) - 3] + ".mp3")
+
 
 def main(bot_token: str) -> None:
     global bot
@@ -148,7 +169,11 @@ def main(bot_token: str) -> None:
     def photo_message(message):
         photo_response(message)
 
-    bot.polling(non_stop=True)
+    @bot.message_handler(content_types=['voice'])
+    def voice_message(message):
+        voice_response(message)
+
+    bot.polling(non_stop = True)
 
 
 if __name__ == "__main__":
