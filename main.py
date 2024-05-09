@@ -96,6 +96,7 @@ def ask_age(user_id : int) -> None:
     bot.send_message(user_id, response)
     states[user_id] = "ask_age"
 
+
 def ask_diet(user_id : int) -> None:
     match get_language(user_id):
         case 0:
@@ -106,6 +107,7 @@ def ask_diet(user_id : int) -> None:
             response = "Калі ласка, пазначце Вашую дыету, калі ў Вас яна ёсць. Гэта неабходна для больш дакладных рэкамендацый нутрыцыялога."
     bot.send_message(user_id, response)
     states[user_id] = "ask_diet"
+
 
 def show_users_data(user_id : int) -> None:
     user_data = get_users_data(user_id)
@@ -212,6 +214,7 @@ def handle_text(message : telebot.types.Message) -> None:
             return
         bot.send_message(user_id, response)
 
+
 def photo_response(message : telebot.types.Message) -> None:
     user_id = message.from_user.id
     if check_chat_existance(user_id):
@@ -244,6 +247,7 @@ def photo_response(message : telebot.types.Message) -> None:
     bot.send_message(user_id, response)
 
     os.remove(save_path)
+
 
 def voice_response(message : telebot.types.Message) -> None:
     user_id = message.from_user.id
@@ -321,3 +325,4 @@ if __name__ == "__main__":
     openAiToken = args.openai_token
     initDataBase()
     main(args.bot_token)
+
