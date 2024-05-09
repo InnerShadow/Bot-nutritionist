@@ -129,3 +129,4 @@ def check_chat_existance(chat_id : int) -> bool:
         cur.execute("SELECT * FROM users WHERE chat_id=?", (chat_id,))
         count = cur.fetchone()
         return True if count is not None else False
+

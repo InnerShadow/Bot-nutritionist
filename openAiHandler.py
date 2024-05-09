@@ -10,7 +10,7 @@ def generate_response(token : str, message : str, user_id : int, doSave = True) 
 
     history = []
     history.append({'role' : "system", "content" : "You are nutritionist specialist. Aswer only questions from you're scope of knowledge."})
-    history.append({'role' : "user", "content" : f"I am {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, i am {user_data[3]}, i am {user_data[4]}, i am goint to use this you for \"{user_data[6]}\"."})    
+    history.append({'role' : "user", "content" : f"I am {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, i am {user_data[3]}, i am {user_data[4]}, i i ask question for \"{user_data[6]}\"."})    
     for mesg, role in getMessageHistory(user_id):
         history.append({'role': role, 'content': mesg})
 
@@ -40,7 +40,7 @@ def generate_photo_response(token : str, photo : str, user_id : int, caption : s
 
     history = []
     history.append({'role' : "system", "content" : "You are nutritionist specialist. Aswer only questions from you're scope of knowledge."})
-    history.append({'role' : "user", "content" : f"I am {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, i am {user_data[3]}, i am {user_data[4]}, i am goint to use this you for \"{user_data[6]}\"."})    
+    history.append({'role' : "user", "content" : f"I am {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, i am {user_data[3]}, i am {user_data[4]}, i i ask question for \"{user_data[6]}\"."})    
     for mesg, role in getMessageHistory(user_id):
         history.append({'role': role, 'content': mesg})
 
@@ -80,7 +80,7 @@ def generate_voise_response(token : str, voice : str, user_id : int) -> str:
 
     history = []
     history.append({'role' : "system", "content" : "You are nutritionist specialist. Aswer only questions from you're scope of knowledge."})
-    history.append({'role' : "user", "content" : f"I am {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, i am {user_data[3]}, i am {user_data[4]}, i am goint to use this you for \"{user_data[6]}\"."})    
+    history.append({'role' : "user", "content" : f"I am {user_data[5]}, i am {user_data[2]}, i am {user_data[8]} years old, i am {user_data[3]}, i am {user_data[4]}, i ask question for \"{user_data[6]}\"."})    
     for mesg, role in getMessageHistory(user_id):
         history.append({'role': role, 'content': mesg})
 
@@ -104,3 +104,4 @@ def generate_voise_response(token : str, voice : str, user_id : int) -> str:
     response.stream_to_file(speech_file_path)
     
     return answer
+
