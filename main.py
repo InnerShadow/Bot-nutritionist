@@ -197,7 +197,18 @@ def handle_text(message : telebot.types.Message) -> None:
         show_users_data(user_id)
         states[user_id] = 0
     else:
-        bot.send_message(user_id, generate_response(openAiToken, message.text, user_id))
+        response = generate_response(openAiToken, message.text, user_id)
+        if response == "Error!":
+            match get_language(user_id):
+                case 0:
+                    response = "Sorry, there was an error, maybe Your message is too long."
+                case 1: 
+                    response = "Извините, возникла ошибка, возможно Ваше сообщение слишком длинное."
+                case 2:
+                    response = "Выбачайце, узнікла памылка, магчыма ваша паведамленне занадта доўгае."
+            bot.send_message(user_id, response)
+            return
+        bot.send_message(user_id, response)
 
 def photo_response(message : telebot.types.Message) -> None:
     user_id = message.from_user.id
@@ -216,7 +227,19 @@ def photo_response(message : telebot.types.Message) -> None:
     save_path = f"Data/{user_id}_{file_extension}"
     with open(save_path, 'wb') as new_file:
         new_file.write(downloaded_file)
-    bot.send_message(user_id, generate_photo_response(openAiToken, save_path, user_id, caption))
+
+    response = generate_photo_response(openAiToken, save_path, user_id, caption)
+    if response == "Error!":
+        match get_language(user_id):
+            case 0:
+                response = "Sorry, there was an error, maybe Your message is too long."
+            case 1: 
+                response = "Извините, возникла ошибка, возможно Ваше сообщение слишком длинное."
+            case 2:
+                response = "Выбачайце, узнікла памылка, магчыма ваша паведамленне занадта доўгае."
+        bot.send_message(user_id, response)
+        return
+    bot.send_message(user_id, response)
 
     os.remove(save_path)
 
@@ -239,7 +262,17 @@ def voice_response(message : telebot.types.Message) -> None:
     sound = pydub.AudioSegment.from_file(save_path, format = "ogg")
     sound.export(save_path[:len(save_path) - 3] + ".mp3", format = "mp3")
 
-    generate_voise_response(openAiToken, save_path[:len(save_path) - 3] + ".mp3", user_id)
+    response = generate_voise_response(openAiToken, save_path[:len(save_path) - 3] + ".mp3", user_id)
+    if response == "Error!":
+        match get_language(user_id):
+            case 0:
+                response = "Sorry, there was an error, maybe Your message is too long."
+            case 1: 
+                response = "Извините, возникла ошибка, возможно Ваше сообщение слишком длинное."
+            case 2:
+                response = "Выбачайце, узнікла памылка, магчыма ваша паведамленне занадта доўгае."
+        bot.send_message(user_id, response)
+        return
 
     with open(f"Data/{user_id}.mp3", 'rb') as f:
         bot.send_voice(user_id, f)
