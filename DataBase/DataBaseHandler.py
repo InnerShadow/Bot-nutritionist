@@ -12,6 +12,7 @@ def initDataBase():
                         name TEXT,
                         purpose TEXT,
                         language TEXT,
+                        age FLOAT,
                         UNIQUE(chat_id)
                         )""")
         
@@ -37,6 +38,13 @@ def update_user_gender(chat_id: int, gender: int) -> None:
     with sq.connect("Data/database.db") as con:
         cur = con.cursor()
         cur.execute("UPDATE users SET gender=? WHERE chat_id=?", (gender, chat_id))
+        con.commit()
+
+
+def update_user_age(chat_id: int, age: float) -> None:
+    with sq.connect("Data/database.db") as con:
+        cur = con.cursor()
+        cur.execute("UPDATE users SET age=? WHERE chat_id=?", (age, chat_id))
         con.commit()
 
 
@@ -73,4 +81,11 @@ def get_users_data(chat_id : int) -> str:
         cur.execute("SELECT * FROM users WHERE chat_id=?", (chat_id,))
         user_data = cur.fetchone()
         
-        return f"You are {user_data[5]}, and you are {user_data[2]}, you're height {user_data[3]}, you're weight {user_data[4]}, you are goint to use this bot for \"{user_data[6]}\"."
+        return f"You are {user_data[5]}, and you are {user_data[2]}, you are {user_data[8]} years old, you're height {user_data[3]}, you're weight {user_data[4]}, you are goint to use this bot for \"{user_data[6]}\"."
+
+def check_chat_existance(chat_id : int) -> bool:
+    with sq.connect("Data/database.db") as con:
+        cur = con.cursor()
+        cur.execute("SELECT * FROM users WHERE chat_id=?", (chat_id,))
+        count = cur.fetchone()
+        return True if count is not None else False

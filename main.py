@@ -42,6 +42,11 @@ def ask_purpose(user_id):
     states[user_id] = "ask_purpose"
 
 
+def ask_age(user_id):
+    bot.send_message(user_id, "Please enter your age (in years):")
+    states[user_id] = "ask_age"
+
+
 def show_users_data(user_id):
     response = get_users_data(user_id)
     bot.send_message(user_id, response)
@@ -60,19 +65,35 @@ def handle_callback_query(call):
         chosen_gender = call.data
         update_user_gender(user_id, chosen_gender)
         bot.send_message(user_id, f"You have chosen {chosen_gender} gender.")
-        ask_height(user_id)
+        ask_age(user_id)
 
 
 def handle_text(message):
     user_id = message.from_user.id
-    if states[user_id] == "ask_height":
+    if check_chat_existance(user_id):
+        if user_id not in states:
+            states[user_id] = 0
+    else:
+        start_dialog(message)
+        return
+    
+    if states[user_id] == "ask_age":
+        age = message.text.strip()
+        if age.isdigit():
+            update_user_age(user_id, float(age))
+            bot.send_message(user_id, f"Your age {age} years has been saved.")
+            ask_height(user_id)
+        else:
+            bot.send_message(user_id, "Please enter a valid age.")
+            ask_age(user_id)
+    elif states[user_id] == "ask_height":
         height = message.text.strip()
         if height.isdigit():
             update_user_height(user_id, float(height))
             bot.send_message(user_id, f"Your height {height} cm has been saved.")
             ask_weight(user_id)
         else:
-            bot.send_message(user_id, "Please enter a valid number for your height.")
+            bot.send_message(user_id, "Please enter a valid height.")
             ask_height(user_id)
     elif states[user_id] == "ask_weight":
         weight = message.text.strip()
@@ -81,7 +102,7 @@ def handle_text(message):
             bot.send_message(user_id, f"Your weight {weight} kg has been saved.")
             ask_purpose(user_id)
         else:
-            bot.send_message(user_id, "Please enter a valid number for your weight.")
+            bot.send_message(user_id, "Please enter a valid weight.")
             ask_weight(user_id)
     elif states[user_id] == "ask_purpose":
         purpose = message.text
@@ -89,7 +110,7 @@ def handle_text(message):
         bot.send_message(user_id, f"Your are goin to use this bot for \"{purpose}\" purpose.")
         show_users_data(user_id)
         states[user_id] = 0
-    elif states[user_id] == 0:
+    else:
         bot.send_message(user_id, generate_response(openAiToken, message.text))
 
 
