@@ -62,10 +62,6 @@ def generate_photo_response(token : str, photo : str, user_id : int, caption : s
         ]
     )
 
-
-    history.append({'role' : "user", "type" : "text" ,"content" : "Что на фотографии"})
-    history.append({'role' : "user", "type" : "image_url" ,"content" : f"data:image/jpeg;base64,{base64_image}", "detail": "low"})
-
     answer = response.choices[0].message.content.replace("*", "")
 
     insertMessage(user_id, "Image", "user")
