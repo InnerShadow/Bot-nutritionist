@@ -111,7 +111,7 @@ def handle_text(message):
         show_users_data(user_id)
         states[user_id] = 0
     else:
-        bot.send_message(user_id, generate_response(openAiToken, message.text))
+        bot.send_message(user_id, generate_response(openAiToken, message.text, user_id))
 
 
 def main(bot_token: str) -> None:
