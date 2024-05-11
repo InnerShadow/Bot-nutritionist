@@ -23,6 +23,17 @@ def start_dialog(message : telebot.types.Message) -> None:
     states[user_id] = "start_dialog"
 
 
+def help_dialog(message : telebot.types.Message) -> None:
+    user_id = message.from_user.id
+    match get_language(user_id):
+        case 0:
+            bot.send_message(user_id, "Hello, I am Your personal nutritionist assistant. I am ready to answer any of Your questions in the field of healthy eating, dieting, or just to recommend a snack.\n\nI am also able to calculate the calorie content of the dish on Your photo and respond to Your voice messages.\n\nIn order for my recommendations to be specialized for You, please answer the following questions.")
+        case 1:
+            bot.send_message(user_id, "Здравствуйте, я Ваш, персональный помошник-нутрициолог. Я готов ответить на любые Ваши вопросы в области здорового питания, диаты или просто посоветовать перекус.\n\nТак же я способен высчитывать колорийность блюда, на Вашей фотографии и отвечать на Ваши голосовые сообщения.\n\nДля того чтобы мои рекоментации были специализированны под Вас, пожалуйста ответте на следующие вопросы.")
+        case 2:
+            bot.send_message(user_id, "Добры дзень, я Ваш, персанальны памочнік-нутрициолог. Я гатовы адказаць на любыя вашы пытанні ў галіне здаровага харчавання, дыяты ці проста параіць перакус.\n\nТак ж я здольны вылічваць каларыйнасць стравы, на вашай фатаграфіі і адказваць на Вашыя галасавыя паведамленні.\n\nДля таго каб маі рэкамендацыі былі специализированны пад Вас, калі ласка адкажыце на наступныя пытанні.")
+
+
 def choose_gender(user_id : int) -> None:
     match get_language(user_id):
         case 0:
@@ -124,7 +135,22 @@ def ask_diet(user_id : int) -> None:
 
 
 def show_users_data(user_id : int) -> None:
-    user_data = get_users_data(user_id)
+    user_data = list(get_users_data(user_id))
+    match get_language(user_id):
+        case 0:
+            pass
+        case 1: 
+            match user_data[2]:
+                case "Male":
+                    user_data[2] = "Мужчина"
+                case "Female":
+                    user_data[2] = "Жунщина"
+        case 2:
+            match user_data[2]:
+                case "Male":
+                    user_data[2] = "Мужчыны"
+                case "Female":
+                    user_data[2] = "Жанчына"
     match get_language(user_id):
         case 0:
             response = f"{user_data[5]}, here is the information you provided: \n\tGender: {user_data[2]};\n\tHeight: {user_data[3]};\n\tWeight: {user_data[4]};\n\tPurpose of using the bot: \"{user_data[6]}\";\n\tDiet: \"{user_data[9]}\"."
@@ -320,23 +346,31 @@ def main(bot_token: str) -> None:
     bot = telebot.TeleBot(bot_token)
 
     @bot.message_handler(commands = ['start'])
-    def start(message):
+    def start(message : telebot.types.Message) -> None:
         start_dialog(message)
 
+    @bot.message_handler(commands = ['help'])
+    def help(message : telebot.types.Message) -> None:
+        help_dialog(message)
+
+    @bot.message_handler(commands = ['info'])
+    def info(message : telebot.types.Message) -> None:
+        show_users_data(message.from_user.id)
+
     @bot.callback_query_handler(func = lambda call: True)
-    def callback_query(call):
+    def callback_query(call : telebot.types.Message) -> None:
         handle_callback_query(call)
 
     @bot.message_handler(func = lambda message: True)
-    def text_message(message):
+    def text_message(message : telebot.types.Message) -> None:
         handle_text(message)
 
-    @bot.message_handler(content_types=['photo'])
-    def photo_message(message):
+    @bot.message_handler(content_types = ['photo'])
+    def photo_message(message : telebot.types.Message) -> None:
         photo_response(message)
 
-    @bot.message_handler(content_types=['voice'])
-    def voice_message(message):
+    @bot.message_handler(content_types = ['voice'])
+    def voice_message(message : telebot.types.Message) -> None:
         voice_response(message)
 
     bot.polling(non_stop = True)
