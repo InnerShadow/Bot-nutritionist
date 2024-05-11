@@ -11,9 +11,10 @@ def encode_image(image_path):
         return base64.b64encode(image_file.read()).decode('utf-8')
     
 
-def reduce_image_quality(image_path, quality):
+def reduce_image_quality(image_path):
     img = Image.open(image_path)
-    img.save(image_path, quality = quality)
+    img = img.resize((img.size[0] // 2, img.size[1] // 2))
+    img.save(image_path)
 
 
 def generate_photo_response(token : str, photo : str, user_id : int, caption : str) -> str:
@@ -38,10 +39,8 @@ def generate_photo_response(token : str, photo : str, user_id : int, caption : s
             history.append({'role': role, 'content': mesg})
 
         base64_image = encode_image(photo)
-        quality = 90
         while len(base64_image) > 86_000:
-            reduce_image_quality(photo, quality)
-            quality -= 5
+            reduce_image_quality(photo)
             base64_image = encode_image(photo)
         
         response = client.chat.completions.create(
@@ -70,5 +69,6 @@ def generate_photo_response(token : str, photo : str, user_id : int, caption : s
 
         return answer
     except Exception as e:
+        print(e)
         return "Error!"
 

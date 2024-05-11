@@ -1,4 +1,5 @@
 import telebot
+import random
 import os
 
 from DataBaseHeplers.checkChatExistance import check_chat_existance
@@ -23,7 +24,7 @@ def photo_response(message : telebot.types.Message, bot : telebot.TeleBot, state
 
     file_extension = os.path.splitext(file_info.file_path)[-1]
     downloaded_file = bot.download_file(file_info.file_path)
-    save_path = f"Data/{user_id}_{file_extension}"
+    save_path = f"Data/{user_id}_{random.randint(0, 10000)}_{file_extension}"
     with open(save_path, 'wb') as new_file:
         new_file.write(downloaded_file)
 
