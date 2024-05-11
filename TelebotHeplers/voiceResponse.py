@@ -1,13 +1,12 @@
 import os
 import pydub
 import telebot
-import os
 
 from DataBaseHandler import *
 
 from TelebotHeplers.startDialog import start_dialog
 
-from openAiHandler import *
+from OpenAIHelper.generateVoiseResponse import generate_voise_response
 
 def voice_response(message : telebot.types.Message, bot : telebot.TeleBot, states : dict, openAiToken : str) -> None:
     user_id = message.from_user.id

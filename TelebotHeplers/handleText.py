@@ -1,7 +1,7 @@
 import telebot
 from DataBaseHandler import get_language, check_chat_existance, update_user_age, update_user_height, update_user_weight, update_user_purpose, update_user_diet
 
-from openAiHandler import *
+from OpenAIHelper.generateResponse import generate_response
 
 from TelebotHeplers.startDialog import start_dialog
 from TelebotHeplers.askHeight import ask_height

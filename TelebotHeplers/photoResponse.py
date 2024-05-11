@@ -5,7 +5,7 @@ from DataBaseHandler import *
 
 from TelebotHeplers.startDialog import start_dialog
 
-from openAiHandler import *
+from OpenAIHelper.generatePhotoResponse import generate_photo_response 
 
 def photo_response(message : telebot.types.Message, bot : telebot.TeleBot, states : dict, openAiToken : str) -> None:
     user_id = message.from_user.id
