@@ -1,5 +1,5 @@
 import telebot
-from DataBaseHandler import get_language
+from DataBaseHeplers.getLanguage import get_language
 
 def ask_weight(user_id : int, bot : telebot.TeleBot, states : dict) -> None:
     match get_language(user_id):

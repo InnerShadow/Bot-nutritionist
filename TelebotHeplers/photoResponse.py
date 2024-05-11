@@ -1,7 +1,8 @@
 import telebot
 import os
 
-from DataBaseHandler import *
+from DataBaseHeplers.checkСhatExistance import check_chat_existance
+from DataBaseHeplers.getLanguage import get_language
 
 from TelebotHeplers.startDialog import start_dialog
 

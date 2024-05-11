@@ -1,8 +1,11 @@
 from openai import OpenAI
-from DataBaseHandler import *
 from pathlib import Path
 
 from OpenAIHelper.generateResponse import generate_response
+
+from DataBaseHeplers.getMessageHistory import getMessageHistory
+from DataBaseHeplers.getUsersData import get_users_data
+from DataBaseHeplers.insertMessage import insertMessage
 
 def generate_voise_response(token : str, voice : str, user_id : int) -> str:
     client = OpenAI(api_key = token)

@@ -1,5 +1,4 @@
 import telebot
-from DataBaseHandler import get_language, check_chat_existance, update_user_age, update_user_height, update_user_weight, update_user_purpose, update_user_diet
 
 from OpenAIHelper.generateResponse import generate_response
 
@@ -10,6 +9,14 @@ from TelebotHeplers.askWeight import ask_weight
 from TelebotHeplers.askDiet import ask_diet
 from TelebotHeplers.askPupoise import ask_purpose
 from TelebotHeplers.showUsersData import show_users_data
+
+from DataBaseHeplers.checkСhatExistance import check_chat_existance
+from DataBaseHeplers.getLanguage import get_language
+from DataBaseHeplers.updateUserAge import update_user_age
+from DataBaseHeplers.updateUserHeight import update_user_height
+from DataBaseHeplers.updateUserWeight import update_user_weight
+from DataBaseHeplers.updateUserPurpose import update_user_purpose
+from DataBaseHeplers.updateUserDiet import update_user_diet
 
 def handle_text(message : telebot.types.Message, bot : telebot.TeleBot, states : dict, openAiToken : str) -> None:
     user_id = message.from_user.id

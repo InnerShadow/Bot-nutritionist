@@ -1,7 +1,7 @@
 import telebot
 import argparse
 
-from DataBaseHandler import initDataBase
+from DataBaseHeplers.initDataBase import initDataBase
 
 from TelebotHeplers.startDialog import start_dialog
 from TelebotHeplers.helpDialog import help_dialog

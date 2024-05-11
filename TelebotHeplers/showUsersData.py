@@ -1,5 +1,7 @@
 import telebot
-from DataBaseHandler import get_language, get_users_data
+
+from DataBaseHeplers.getUsersData import get_users_data
+from DataBaseHeplers.getLanguage import get_language
 
 def show_users_data(user_id : int, bot : telebot.TeleBot) -> None:
     user_data = list(get_users_data(user_id))

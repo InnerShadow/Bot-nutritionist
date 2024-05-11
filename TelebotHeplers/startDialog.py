@@ -1,6 +1,8 @@
 from telebot import types
 import telebot
-from DataBaseHandler import create_user, update_user_name
+
+from DataBaseHeplers.updateUserName import update_user_name
+from DataBaseHeplers.createUser import create_user
 
 def start_dialog(message : telebot.types.Message, bot : telebot.TeleBot, states : dict) -> None:
     user_id = message.from_user.id

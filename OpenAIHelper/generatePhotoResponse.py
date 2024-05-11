@@ -1,7 +1,10 @@
 from openai import OpenAI
-from DataBaseHandler import *
-import base64
 from PIL import Image
+import base64
+
+from DataBaseHeplers.getUsersData import get_users_data
+from DataBaseHeplers.getMessageHistory import getMessageHistory
+from DataBaseHeplers.insertMessage import insertMessage
 
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
@@ -36,7 +39,7 @@ def generate_photo_response(token : str, photo : str, user_id : int, caption : s
 
         base64_image = encode_image(photo)
         quality = 90
-        while len(base64_image) < 86_000:
+        while len(base64_image) > 86_000:
             reduce_image_quality(photo, quality)
             quality -= 5
             base64_image = encode_image(photo)

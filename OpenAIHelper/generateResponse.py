@@ -1,6 +1,8 @@
 from openai import OpenAI
 
-from DataBaseHandler import *
+from DataBaseHeplers.getUsersData import get_users_data
+from DataBaseHeplers.getMessageHistory import getMessageHistory
+from DataBaseHeplers.insertMessage import insertMessage
 
 def generate_response(token : str, message : str, user_id : int, doSave = True) -> str:
     client = OpenAI(api_key = token)

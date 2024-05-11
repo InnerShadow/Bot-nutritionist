@@ -1,5 +1,8 @@
 import telebot
-from DataBaseHandler import get_language, update_user_language, update_user_gender
+
+from DataBaseHeplers.getLanguage import get_language
+from DataBaseHeplers.updateUserLanguage import update_user_language
+from DataBaseHeplers.updateUserGender import update_user_gender
 
 from TelebotHeplers.startDialog import start_dialog
 from TelebotHeplers.chooseGender import choose_gender

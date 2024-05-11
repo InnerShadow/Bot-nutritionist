@@ -2,7 +2,8 @@ import os
 import pydub
 import telebot
 
-from DataBaseHandler import *
+from DataBaseHeplers.getLanguage import get_language
+from DataBaseHeplers.checkСhatExistance import check_chat_existance
 
 from TelebotHeplers.startDialog import start_dialog
 
