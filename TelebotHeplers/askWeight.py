@@ -1,6 +1,7 @@
 import telebot
 from DataBaseHeplers.getLanguage import get_language
 
+# Function to ask user weight
 def ask_weight(user_id : int, bot : telebot.TeleBot, states : dict) -> None:
     match get_language(user_id):
         case 0:

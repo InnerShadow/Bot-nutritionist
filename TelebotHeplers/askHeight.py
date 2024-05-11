@@ -1,6 +1,7 @@
 import telebot
 from DataBaseHeplers.getLanguage import get_language
 
+# function to ask user the height
 def ask_height(user_id : int, bot : telebot.TeleBot, states : dict) -> None:
     match get_language(user_id):
         case 0:

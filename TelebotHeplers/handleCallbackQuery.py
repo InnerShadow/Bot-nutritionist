@@ -8,6 +8,7 @@ from TelebotHeplers.startDialog import start_dialog
 from TelebotHeplers.chooseGender import choose_gender
 from TelebotHeplers.askAge import ask_age
 
+# Function to handle buuttons chose 
 def handle_callback_query(call : telebot.types.Message, bot : telebot.TeleBot, states : dict) -> None:
     user_id = call.from_user.id
     if user_id not in states:
@@ -23,10 +24,14 @@ def handle_callback_query(call : telebot.types.Message, bot : telebot.TeleBot, s
                 response = "Я гатовы адказаць на любыя вашы пытанні!!!"
     
          bot.send_message(user_id, response)
+
+    # Ask user about language
     elif states[user_id] == "start_dialog":
         chosen_language = call.data
         update_user_language(user_id, chosen_language)
         choose_gender(user_id, bot, states)
+
+    # Ask user about gender
     elif states[user_id] == "choose_gender":
         chosen_gender = call.data
         update_user_gender(user_id, chosen_gender)

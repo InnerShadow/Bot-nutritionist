@@ -1,6 +1,7 @@
 import telebot
 from DataBaseHeplers.getLanguage import get_language
 
+# Funciton to ask user a purpose of using the bot
 def ask_purpose(user_id : int, bot : telebot.TeleBot, states : dict) -> None:
     match get_language(user_id):
         case 0:

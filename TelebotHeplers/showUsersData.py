@@ -3,6 +3,7 @@ import telebot
 from DataBaseHeplers.getUsersData import get_users_data
 from DataBaseHeplers.getLanguage import get_language
 
+# Get all user's data from data base and send user this information
 def show_users_data(user_id : int, bot : telebot.TeleBot) -> None:
     user_data = list(get_users_data(user_id))
     match get_language(user_id):

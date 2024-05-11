@@ -1,6 +1,7 @@
 import telebot
 from DataBaseHeplers.getLanguage import get_language
 
+# Function to handle /help function
 def help_dialog(message : telebot.types.Message, bot : telebot.TeleBot) -> None:
     user_id = message.from_user.id
     match get_language(user_id):
