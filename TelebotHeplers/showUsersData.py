@@ -11,7 +11,7 @@ def show_users_data(user_id : int, bot : telebot.TeleBot) -> None:
                 case "Male":
                     user_data[2] = "Мужчина"
                 case "Female":
-                    user_data[2] = "Жунщина"
+                    user_data[2] = "Женщина"
         case 2:
             match user_data[2]:
                 case "Male":

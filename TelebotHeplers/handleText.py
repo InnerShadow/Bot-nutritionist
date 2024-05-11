@@ -69,11 +69,11 @@ def handle_text(message : telebot.types.Message, bot : telebot.TeleBot, states :
         purpose = message.text
         update_user_purpose(user_id, purpose)
         states[user_id] = "ask_diet"
-        ask_diet(user_id)
+        ask_diet(user_id, bot, states)
     elif states[user_id] == "ask_diet":
         diet = message.text
         update_user_diet(user_id, diet)
-        show_users_data(user_id, bot, states)
+        show_users_data(user_id, bot)
         states[user_id] = 0
     else:
         response = generate_response(openAiToken, message.text, user_id)
