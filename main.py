@@ -32,7 +32,7 @@ def main(bot_token: str) -> None:
     # Hendle /info command
     @bot.message_handler(commands = ['info'])
     def info(message : telebot.types.Message) -> None:
-        show_users_data(message.from_user.id)
+        show_users_data(message.from_user.id, bot)
 
     # Callback for language & gender 
     @bot.callback_query_handler(func = lambda call: True)
