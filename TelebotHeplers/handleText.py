@@ -10,7 +10,7 @@ from TelebotHeplers.askDiet import ask_diet
 from TelebotHeplers.askPupoise import ask_purpose
 from TelebotHeplers.showUsersData import show_users_data
 
-from DataBaseHeplers.checkСhatExistance import check_chat_existance
+from DataBaseHeplers.checkChatExistance import check_chat_existance
 from DataBaseHeplers.getLanguage import get_language
 from DataBaseHeplers.updateUserAge import update_user_age
 from DataBaseHeplers.updateUserHeight import update_user_height
