@@ -39,11 +39,11 @@ def main(bot_token: str) -> None:
 
     @bot.message_handler(content_types = ['photo'])
     def photo_message(message : telebot.types.Message) -> None:
-        photo_response(message, bot, states)
+        photo_response(message, bot, states, openAiToken)
 
     @bot.message_handler(content_types = ['voice'])
     def voice_message(message : telebot.types.Message) -> None:
-        voice_response(message, bot, states)
+        voice_response(message, bot, states, openAiToken)
 
     bot.polling(non_stop = True)
 

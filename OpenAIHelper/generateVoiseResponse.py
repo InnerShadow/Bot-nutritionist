@@ -1,5 +1,4 @@
 from openai import OpenAI
-from pathlib import Path
 
 from OpenAIHelper.generateResponse import generate_response
 
@@ -39,7 +38,7 @@ def generate_voise_response(token : str, voice : str, user_id : int) -> str:
         answer = generate_response(token, transcription.text, user_id, False)
         insertMessage(user_id, answer, "system")
 
-        speech_file_path = Path(__file__).parent / f"Data/{user_id}.mp3"
+        speech_file_path = f"./Data/{user_id}.mp3"
         response = client.audio.speech.create(
             model = "tts-1",
             voice = "alloy",
@@ -49,6 +48,6 @@ def generate_voise_response(token : str, voice : str, user_id : int) -> str:
         response.stream_to_file(speech_file_path)
         
         return answer
-    except Exception:
+    except Exception as e:
         return "Error!"
 
