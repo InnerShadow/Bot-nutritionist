@@ -30,7 +30,7 @@ def choose_gender(user_id : int) -> None:
         case 1:
             bot.send_message(user_id, "Здравствуйте, я Ваш, персональный помошник-нутрициолог. Я готов ответить на любые Ваши вопросы в области здорового питания, диаты или просто посоветовать перекус.\n\nТак же я способен высчитывать колорийность блюда, на Вашей фотографии и отвечать на Ваши голосовые сообщения.\n\nДля того чтобы мои рекоментации были специализированны под Вас, пожалуйста ответте на следующие вопросы.")
         case 2:
-            bot.send_message(user_id, "Добры дзень, я Ваш, персанальны памочнік-нутрициолог. Я гатовы адказаць на любыя вашы пытанні ў галіне здаровага харчавання, дыяты ці проста параіць перакус.\n\nТак ж я здольны вылічваць каларыйнасць стравы, на вашай фатаграфіі і адказваць на Вашыя галасавыя паведамленні.\n\nДля таго каб мае рекоментации былі специализированны пад Вас, калі ласка адкажыце на наступныя пытанні.")
+            bot.send_message(user_id, "Добры дзень, я Ваш, персанальны памочнік-нутрициолог. Я гатовы адказаць на любыя вашы пытанні ў галіне здаровага харчавання, дыяты ці проста параіць перакус.\n\nТак ж я здольны вылічваць каларыйнасць стравы, на вашай фатаграфіі і адказваць на Вашыя галасавыя паведамленні.\n\nДля таго каб маі рэкамендацыі былі специализированны пад Вас, калі ласка адкажыце на наступныя пытанні.")
 
     match get_language(user_id):
         case 0:
@@ -304,7 +304,7 @@ def main(bot_token: str) -> None:
     def start(message):
         start_dialog(message)
 
-    @bot.callback_query_handler(func=lambda call: True)
+    @bot.callback_query_handler(func = lambda call: True)
     def callback_query(call):
         handle_callback_query(call)
 
@@ -324,9 +324,9 @@ def main(bot_token: str) -> None:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Telegram Nutritionist Bot ')
-    parser.add_argument('bot_token', type=str, help='Telegram Bot token')
-    parser.add_argument('openai_token', type=str, help='OpenAI token')
+    parser = argparse.ArgumentParser(description = 'Telegram Nutritionist Bot ')
+    parser.add_argument('bot_token', type = str, help = 'Telegram Bot token')
+    parser.add_argument('openai_token', type = str, help = 'OpenAI token')
     args = parser.parse_args()
     
     global openAiToken
